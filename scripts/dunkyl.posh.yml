@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+blocks:
+  - type: prompt
+    alignment: left
+    segments: 
+      - type: python
+        style: plain
+        foreground: green
+        template: >-
+          🐍
+          {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }}
+          {{ end }}{{ .Full }}{{ end }}
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: root
+        style: plain
+        foreground: '#F82'
+        template: ⚡
+      - type: session
+        style: plain
+        foreground: '#6F6'
+        template: >-
+          <#6DF>{{ if ne "dunkyl" .UserName  }}{{ .UserName }}{{ else }}◸{{ end }}</>
+          <darkGray>at</>
+          {{ .HostName }}
+          {{ if .SSHSession }}SSH {{ end }}
+      - type: os
+        style: plain
+        foreground: '#6F6'
+        template: '{{ if .WSL }}WSL {{ end }}'
+      - type: path
+        style: plain
+        properties:
+          style: full
+        foreground: lightYellow
+        template: >-
+          <darkGray>in</>
+          {{ if .Segments.Git.Dir }}::{{ path (trimPrefix (replaceP .Segments.Git.RepoName .Segments.Git.Dir "") .PWD) .Location }}
+          {{ else}}{{ path .Path .Location }}
+          {{ end }}
+      - type: git
+        style: plain
+        foreground: white
+        properties:
+          fetch_status: true
+          fetch_stash_count: true
+          fetch_upstream_icon: true
+          branch_icon: '枝 ' # いだ　- branch
+          branch_identical_icon: '='
+          branch_ahead_icon: ↑
+          branch_behind_icon: ↓
+          branch_gone_icon: 枝‽
+        template: >-
+          <darkGray>on</>
+          {{ if .UpstreamURL }}{{ url .HEAD .UpstreamURL }}
+          {{ else }}{{ .HEAD }}
+          {{ end }}
+      - type: project
+        style: plain
+        foreground: darkGray
+        template: '{{ .Version }} '
+      - type: exit
+        style: plain
+        foreground: '#B22'
+        properties:
+          always_enabled: false
+        template: <#FFF,#B22> 味 {{ .Code }} </>▎ # あじ - taste
+      - type: executiontime
+        style: plain
+        foreground: '#80D'
+        properties:
+          threshold: 30
+          style: austin
+            # conflict character with MD icon for clock from nerd fonts
+            # "It is about the kanji character "祥". It is a kanji for personal names. It is the old form of "祥"."
+        template: <#FFF,#80D> 祥 {{ .FormattedMs }} </>▎ 
+        
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: text
+        style: plain
+        foreground: darkGray
+        template: '>'
+
+final_space: true
+version: 2
+console_title: true
+
