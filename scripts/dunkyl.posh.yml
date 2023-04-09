@@ -13,7 +13,6 @@ blocks:
           {{ end }}{{ .Full }}{{ end }}
   - type: prompt
     alignment: left
-    newline: true
     segments:
       - type: root
         style: plain
@@ -46,18 +45,16 @@ blocks:
         foreground: white
         properties:
           fetch_status: true
-          fetch_stash_count: true
           fetch_upstream_icon: true
           branch_icon: '枝 ' # いだ　- branch
           branch_identical_icon: '='
           branch_ahead_icon: ↑
           branch_behind_icon: ↓
           branch_gone_icon: 枝‽
-        template: >-
-          <darkGray>on</>
-          {{ if .UpstreamURL }}{{ url .HEAD .UpstreamURL }}
-          {{ else }}{{ .HEAD }}
-          {{ end }}
+        template:
+          "<darkGray>on</> \
+          {{ url .HEAD .UpstreamURL }}\
+          {{ if .Working.Changed }}*{{ end }} "
       - type: project
         style: plain
         foreground: darkGray
@@ -74,9 +71,9 @@ blocks:
         properties:
           threshold: 30
           style: austin
-            # conflict character with MD icon for clock from nerd fonts
+            # conflict character with MDI icon for clock from nerd fonts
             # "It is about the kanji character "祥". It is a kanji for personal names. It is the old form of "祥"."
-        template: <#FFF,#80D> 祥 {{ .FormattedMs }} </>▎ 
+        template: <#FFF,#80D> 祥 {{ .FormattedMs }} </>▎  #
         
   - type: prompt
     alignment: left
